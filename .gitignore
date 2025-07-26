@@ -1,3 +1,12 @@
+# Ignorar archivos generados por el build nativo de Android
+android/.gradle/
+android/app/build/
+android/build/
+android/app/.cxx/
+android/.idea/
+android/local.properties
+android/app/debug.keystore
+
 # Learn more https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
 
 # dependencies
