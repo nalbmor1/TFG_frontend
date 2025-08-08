@@ -8,8 +8,9 @@ export default function SearchBar(props: ComponentProps<typeof TextInput>) {
       <MaterialIcons name="search" size={30} color="#2b2b2b" />
       <TextInput
         style={styles.input}
-        placeholder="Buscar ruta"
-        placeholderTextColor="black"
+        placeholder="¿Cuánto quieres recorrer? · (Km)"
+        placeholderTextColor="#6e6e6e"
+        keyboardType="numeric"
         {...props}
       />
     </View>

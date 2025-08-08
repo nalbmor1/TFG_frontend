@@ -1,24 +1,17 @@
 import React, { useState } from 'react';
-import { Keyboard, SafeAreaView, StyleSheet, View } from 'react-native';
-import MapView, { MapPressEvent } from 'react-native-maps';
+import { StyleSheet, View } from 'react-native';
+import MapView from 'react-native-maps';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import CustomMarker from '../components/CustomMarker';
 import SearchBar from '../components/SearchBar';
+import { useMapInteractions } from '../hooks/useMapInteractions';
 import { useMapSelection } from '../hooks/useMapSelection';
 
 export default function MapScreen() {
   const { selectedPoint, handleMapPress } = useMapSelection();
   const [showSearchBar, setShowSearchBar] = useState(true);
   const [isInputFocused, setIsInputFocused] = useState(false);
-
-  // Cierra el teclado si el input está enfocado, si no ejecuta la lógica normal de selección
-  const handleMapPressWithKeyboard = (event: MapPressEvent) => {
-    if (isInputFocused) {
-      Keyboard.dismiss();
-      setIsInputFocused(false);
-      return;
-    }
-    handleMapPress(event);
-  };
+  const { handleMapPressWithKeyboard } = useMapInteractions(isInputFocused, setIsInputFocused, handleMapPress);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
