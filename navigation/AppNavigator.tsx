@@ -9,7 +9,7 @@ export default function AppNavigator() {
   return (
     <Stack.Navigator>
       <Stack.Screen name="Home" component={HomeScreen} />
-      <Stack.Screen name="Map" component={MapScreen} options={{ headerBackVisible: false }} />
+      <Stack.Screen name="Map" component={MapScreen} options={{ headerBackVisible: false, headerShown: false }} />
     </Stack.Navigator>
   );
 }
