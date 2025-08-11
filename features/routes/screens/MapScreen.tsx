@@ -4,14 +4,17 @@ import MapView from 'react-native-maps';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import CustomMarker from '../components/CustomMarker';
 import SearchBar from '../components/SearchBar';
+import UserLocationMarker from '../components/UserLocationMarker';
 import { useMapInteractions } from '../hooks/useMapInteractions';
 import { useMapSelection } from '../hooks/useMapSelection';
+import { useUserLocation } from '../hooks/useUserLocation';
 
 export default function MapScreen() {
   const { selectedPoint, handleMapPress } = useMapSelection();
   const [showSearchBar, setShowSearchBar] = useState(true);
   const [isInputFocused, setIsInputFocused] = useState(false);
   const { handleMapPressWithKeyboard } = useMapInteractions(isInputFocused, setIsInputFocused, handleMapPress);
+  const userLocation = useUserLocation();
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
@@ -32,6 +35,7 @@ export default function MapScreen() {
           }}
           onPress={handleMapPressWithKeyboard}
         >
+          {userLocation && <UserLocationMarker coordinate={userLocation} />}
           {selectedPoint && <CustomMarker coordinate={selectedPoint} />}
         </MapView>
       </View>
