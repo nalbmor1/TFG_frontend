@@ -14,7 +14,7 @@ export default function NavBarNavigator() {
   return (
     <Tab.Navigator
       screenOptions={{
-        tabBarStyle: { backgroundColor: '#fff' },
+        tabBarStyle: { backgroundColor: '#fff', height: 80 },
         headerShown: false,
         tabBarShowLabel: false,
         tabBarIconStyle: { marginTop: 10 },
