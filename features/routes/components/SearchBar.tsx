@@ -11,6 +11,7 @@ export default function SearchBar(props: ComponentProps<typeof TextInput>) {
         placeholder="¿Cuánto quieres recorrer? · (Km)"
         placeholderTextColor="#6e6e6e"
         keyboardType="numeric"
+        returnKeyType="done"
         {...props}
       />
     </View>
