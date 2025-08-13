@@ -16,15 +16,25 @@ export default function MapScreen() {
   const { selectedPoint, handleMapPress } = useMapSelection();
   const [showSearchBar, setShowSearchBar] = useState(true);
   const [isInputFocused, setIsInputFocused] = useState(false);
+  const [isResultMode, setIsResultMode] = useState(false);
+  const [searchValue, setSearchValue] = useState('');
   const { handleMapPressWithKeyboard } = useMapInteractions(isInputFocused, setIsInputFocused, handleMapPress);
   const userLocation = useUserLocation();
-  const { data, loading, generateRoutes } = useMockRouteGeneration();
+  const { data, loading, generateRoutes, resetRoutes } = useMockRouteGeneration();
 
   const handleSearch = (text: string) => {
     const distance = parseFloat(text);
     if (!isNaN(distance)) {
       generateRoutes(distance);
+      setIsResultMode(true);
+      setSearchValue(text);
     }
+  };
+
+  const handleBack = () => {
+    setIsResultMode(false);
+    setSearchValue('');
+    resetRoutes();
   };
 
   return (
@@ -32,6 +42,10 @@ export default function MapScreen() {
       <View style={styles.container}>
         {showSearchBar && (
           <SearchBar
+            isResultMode={isResultMode}
+            onBack={handleBack}
+            value={searchValue}
+            onChangeText={setSearchValue}
             onFocus={() => setIsInputFocused(true)}
             onBlur={() => setIsInputFocused(false)}
             onSubmitEditing={e => handleSearch(e.nativeEvent.text)}
@@ -50,8 +64,9 @@ export default function MapScreen() {
           {userLocation && <UserLocationMarker coordinate={userLocation} />}
           {selectedPoint && <CustomMarker coordinate={selectedPoint} />}
           {data && <RoutePolylines routes={data.routes} />}
-          {data && <BestRouteInfo routes={data.routes} />}
+          
         </MapView>
+        {data && <BestRouteInfo routes={data.routes} />}
       </View>
     </SafeAreaView>
   );

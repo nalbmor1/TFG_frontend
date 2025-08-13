@@ -14,5 +14,10 @@ export function useMockRouteGeneration() {
     }, 1000);
   };
 
-  return { data, loading, generateRoutes };
+  const resetRoutes = () => {
+    setData(null);
+    setLoading(false);
+  };
+
+  return { data, loading, generateRoutes, resetRoutes };
 }

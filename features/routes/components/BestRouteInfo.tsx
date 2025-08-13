@@ -15,7 +15,7 @@ export default function BestRouteInfo({ routes }: BestRouteInfoProps) {
         position: 'absolute',
         left: 0,
         right: 0,
-        bottom: 0,
+        bottom: -34,
         backgroundColor: '#fff',
         padding: 16,
         borderTopLeftRadius: 16,
@@ -23,11 +23,11 @@ export default function BestRouteInfo({ routes }: BestRouteInfoProps) {
         elevation: 5,
         maxHeight: 220,
       }}
-      contentContainerStyle={{ paddingBottom: 24 }}
+      contentContainerStyle={{ paddingBottom: 14 }}
       showsVerticalScrollIndicator={false}
     >
       {routes.map((route, idx) => (
-        <View key={idx} style={{ marginBottom: 18, borderBottomWidth: idx < routes.length - 1 ? 1 : 0, borderBottomColor: '#eee', paddingBottom: 10 }}>
+        <View key={idx} style={{ marginBottom: 18, borderBottomWidth: idx < routes.length - 1 ? 1 : 0, borderBottomColor: '#eee', paddingBottom: idx < routes.length - 1 ? 18 : 0 }}>
           <Text style={{ fontWeight: 'bold', fontSize: 18, marginBottom: 4, fontFamily: 'Afacad' }}>{route.length} km</Text>
           <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 2 }}>
             <Image source={require('../../../assets/images/routes/pollution.png')} style={{ width: 22, height: 22, marginRight: 8 }} resizeMode="contain" />
