@@ -10,9 +10,11 @@ export default function SearchBar(props: ComponentProps<typeof TextInput>) {
       <MaterialIcons name="search" size={30} color="#2b2b2b" />
       <View style={{ flex: 1, position: 'relative' }}>
         {value === '' && (
-          <Text style={styles.placeholder}>
-            ¿Cuánto quieres recorrer? · (Km)
-          </Text>
+          <View style={styles.placeholderContainer} pointerEvents="none">
+            <Text style={styles.placeholderText}>
+              ¿Cuánto quieres recorrer? · (Km)
+            </Text>
+          </View>
         )}
         <TextInput
           style={styles.input}
@@ -42,14 +44,18 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontFamily: 'Afacad',
   },
-  placeholder: {
+  placeholderContainer: {
     position: 'absolute',
     left: 8,
-    top: '50%',
-    transform: [{ translateY: -12 }],
+    right: 0,
+    top: 0,
+    bottom: 0,
+    justifyContent: 'center',
+    zIndex: 1,
+  },
+  placeholderText: {
     fontSize: 18,
     color: '#6e6e6e',
     fontFamily: 'Afacad',
-    zIndex: 1,
   },
 });
