@@ -2,12 +2,15 @@ import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import MapView from 'react-native-maps';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import BestRouteInfo from '../components/BestRouteInfo';
 import CustomMarker from '../components/CustomMarker';
+import RoutePolylines from '../components/RoutePolylines';
 import SearchBar from '../components/SearchBar';
 import UserLocationMarker from '../components/UserLocationMarker';
 import { useMapInteractions } from '../hooks/useMapInteractions';
 import { useMapSelection } from '../hooks/useMapSelection';
 import { useUserLocation } from '../hooks/useUserLocation';
+import { useMockRouteGeneration } from '../mocks/useMockRouteGeneration';
 
 export default function MapScreen() {
   const { selectedPoint, handleMapPress } = useMapSelection();
@@ -15,6 +18,14 @@ export default function MapScreen() {
   const [isInputFocused, setIsInputFocused] = useState(false);
   const { handleMapPressWithKeyboard } = useMapInteractions(isInputFocused, setIsInputFocused, handleMapPress);
   const userLocation = useUserLocation();
+  const { data, loading, generateRoutes } = useMockRouteGeneration();
+
+  const handleSearch = (text: string) => {
+    const distance = parseFloat(text);
+    if (!isNaN(distance)) {
+      generateRoutes(distance);
+    }
+  };
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
@@ -23,6 +34,7 @@ export default function MapScreen() {
           <SearchBar
             onFocus={() => setIsInputFocused(true)}
             onBlur={() => setIsInputFocused(false)}
+            onSubmitEditing={e => handleSearch(e.nativeEvent.text)}
           />
         )}
         <MapView
@@ -37,6 +49,8 @@ export default function MapScreen() {
         >
           {userLocation && <UserLocationMarker coordinate={userLocation} />}
           {selectedPoint && <CustomMarker coordinate={selectedPoint} />}
+          {data && <RoutePolylines routes={data.routes} />}
+          {data && <BestRouteInfo routes={data.routes} />}
         </MapView>
       </View>
     </SafeAreaView>

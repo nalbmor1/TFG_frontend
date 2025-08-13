@@ -20,7 +20,7 @@ export default function SearchBar(props: ComponentProps<typeof TextInput>) {
           style={styles.input}
           value={value}
           onChangeText={setValue}
-          keyboardType="numeric"
+          keyboardType="default"
           returnKeyType="done"
           {...props}
         />
