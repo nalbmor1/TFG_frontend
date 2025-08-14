@@ -60,7 +60,7 @@ export default function MapScreen() {
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421,
           }}
-          onPress={handleMapPressWithKeyboard}
+          onPress={isResultMode ? undefined : handleMapPressWithKeyboard}
         >
           {userLocation && <UserLocationMarker coordinate={userLocation} />}
           {selectedPoint && <CustomMarker coordinate={selectedPoint} />}
