@@ -4,6 +4,7 @@ import MapView from 'react-native-maps';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import BestRouteInfo from '../components/BestRouteInfo';
 import CustomMarker from '../components/CustomMarker';
+import RouteLoader from '../components/RouteLoader';
 import RoutePolylines from '../components/RoutePolylines';
 import SearchBar from '../components/SearchBar';
 import UserLocationMarker from '../components/UserLocationMarker';
@@ -67,6 +68,7 @@ export default function MapScreen() {
           
         </MapView>
         {data && <BestRouteInfo routes={data.routes} />}
+        {loading && <RouteLoader />}
       </View>
     </SafeAreaView>
   );
