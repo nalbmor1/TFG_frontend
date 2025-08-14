@@ -1,7 +1,6 @@
-
-
 import React from 'react';
 import { Image, ScrollView, Text, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { RouteInfo } from '../types/routeTypes';
 
 interface BestRouteInfoProps {
@@ -9,13 +8,14 @@ interface BestRouteInfoProps {
 }
 
 export default function BestRouteInfo({ routes }: BestRouteInfoProps) {
+  const insets = useSafeAreaInsets();
   return (
     <ScrollView
       style={{
         position: 'absolute',
         left: 0,
         right: 0,
-        bottom: -34,
+        bottom: -insets.bottom,
         backgroundColor: '#fff',
         padding: 16,
         borderTopLeftRadius: 16,
