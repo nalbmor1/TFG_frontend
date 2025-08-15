@@ -42,10 +42,10 @@ export default function BestRouteInfo({ routes }: BestRouteInfoProps) {
               justifyContent: 'center',
             }}>
               <Text style={{ fontSize: 16, fontFamily: 'Afacad' }}>
-                {`${Math.round((route.length / 15) * 60)} min`}
+                {`${Math.round(((route.length / 1000) / 15) * 60)} min`}
               </Text>
             </View>
-            <Text style={{ fontSize: 18, fontFamily: 'Afacad' }}>{route.length} km</Text>
+            <Text style={{ fontSize: 18, fontFamily: 'Afacad' }}>{(route.length / 1000).toFixed(2)} km</Text>
           </View>
           <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 2 }}>
             <Image source={require('../../../assets/images/routes/pollution.png')} style={{ width: 22, height: 22, marginRight: 8 }} resizeMode="contain" />
@@ -53,15 +53,15 @@ export default function BestRouteInfo({ routes }: BestRouteInfoProps) {
           </View>
           <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 2 }}>
             <Image source={require('../../../assets/images/routes/danger.png')} style={{ width: 22, height: 22, marginRight: 8 }} resizeMode="contain" />
-            <Text style={{ fontSize: 18, fontFamily: 'Afacad' }}>Cruces o intersecciones: {route.crossings}</Text>
+            <Text style={{ fontSize: 18, fontFamily: 'Afacad' }}>Cruces o intersecciones: {Math.round(route.crossings * 100)}%</Text>
           </View>
           <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 2 }}>
             <Image source={require('../../../assets/images/routes/deviation.png')} style={{ width: 22, height: 22, marginRight: 8 }} resizeMode="contain" />
-            <Text style={{ fontSize: 18, fontFamily: 'Afacad' }}>Desviación: {route.length_deviation}</Text>
+            <Text style={{ fontSize: 18, fontFamily: 'Afacad' }}>Desviación: {Math.round(route.length_deviation * 100)}%</Text>
           </View>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <Image source={require('../../../assets/images/routes/bike.png')} style={{ width: 22, height: 22, marginRight: 8 }} resizeMode="contain" />
-            <Text style={{ fontSize: 18, fontFamily: 'Afacad' }}>Tramo sin carril bici: {route.bikepath}</Text>
+            <Text style={{ fontSize: 18, fontFamily: 'Afacad' }}>Tramo sin carril bici: {Math.round(route.bikepath * 100)}%</Text>
           </View>
         </View>
       ))}
