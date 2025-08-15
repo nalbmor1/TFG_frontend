@@ -28,14 +28,32 @@ export default function BestRouteInfo({ routes }: BestRouteInfoProps) {
     >
       {routes.map((route, idx) => (
         <View key={idx} style={{ marginBottom: 18, borderBottomWidth: idx < routes.length - 1 ? 1 : 0, borderBottomColor: '#eee', paddingBottom: idx < routes.length - 1 ? 18 : 0 }}>
-          <Text style={{ fontWeight: 'bold', fontSize: 18, marginBottom: 4, fontFamily: 'Afacad' }}>{route.length} km</Text>
+          <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 4 }}>
+            <View style={{
+              backgroundColor: '#BC7769D4',
+              borderColor: '#880C0C',
+              borderWidth: 2,
+              borderRadius: 3,
+              paddingHorizontal: 10,
+              paddingVertical: 6,
+              marginRight: 8,
+              minWidth: 54,
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+              <Text style={{ fontSize: 16, fontFamily: 'Afacad' }}>
+                {`${Math.round((route.length / 15) * 60)} min`}
+              </Text>
+            </View>
+            <Text style={{ fontSize: 18, fontFamily: 'Afacad' }}>{route.length} km</Text>
+          </View>
           <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 2 }}>
             <Image source={require('../../../assets/images/routes/pollution.png')} style={{ width: 22, height: 22, marginRight: 8 }} resizeMode="contain" />
             <Text style={{ fontSize: 18, fontFamily: 'Afacad' }}>Índice de contaminación: {route.pollution}</Text>
           </View>
           <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 2 }}>
             <Image source={require('../../../assets/images/routes/danger.png')} style={{ width: 22, height: 22, marginRight: 8 }} resizeMode="contain" />
-            <Text style={{ fontSize: 18, fontFamily: 'Afacad' }}>Índice de peligrosidad: {route.crossings}</Text>
+            <Text style={{ fontSize: 18, fontFamily: 'Afacad' }}>Cruces o intersecciones: {route.crossings}</Text>
           </View>
           <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 2 }}>
             <Image source={require('../../../assets/images/routes/deviation.png')} style={{ width: 22, height: 22, marginRight: 8 }} resizeMode="contain" />

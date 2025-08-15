@@ -6,16 +6,28 @@ interface RoutePolylinesProps {
 }
 
 export default function RoutePolylines({ routes }: RoutePolylinesProps) {
+  if (!routes || routes.length === 0) return null;
+
+  const [mainRoute, ...otherRoutes] = routes.slice(0, 3);
+
   return (
     <>
-      {routes.slice(0, 3).map((route, idx) => (
+      {otherRoutes.map((route, idx) => (
         <Polyline
-          key={idx}
+          key={`secondary-${idx}`}
           coordinates={route.path.map(([lat, lon]) => ({ latitude: lat, longitude: lon }))}
-          strokeColor={idx === 0 ? '#880C0C' : '#BC7769'}
-          strokeWidth={idx === 0 ? 5 : 3}
+          strokeColor="rgba(188,119,105,0.5)"
+          strokeWidth={3}
         />
       ))}
+      {mainRoute && (
+        <Polyline
+          key="main"
+          coordinates={mainRoute.path.map(([lat, lon]) => ({ latitude: lat, longitude: lon }))}
+          strokeColor="#880C0C"
+          strokeWidth={5}
+        />
+      )}
     </>
   );
 }
