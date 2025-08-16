@@ -82,6 +82,7 @@ export default function MapScreen() {
           {displayedRoutes && (
             <RoutePolylines
               routes={displayedRoutes}
+              onSelectRoute={selectedRouteIndex === null ? handleSelectRoute : undefined}
             />
           )}
         </MapView>
