@@ -48,7 +48,7 @@ export default function MapScreen() {
     setSelectedRouteIndex(null);
   };
 
-  // Si hay una ruta seleccionada, solo mostrar esa ruta y su info
+  // Si hay una ruta seleccionada, solo mostrar esa ruta
   const displayedRoutes = data && selectedRouteIndex !== null
     ? [data.routes[selectedRouteIndex]]
     : data?.routes;
@@ -88,7 +88,7 @@ export default function MapScreen() {
         </MapView>
         {data && (
           <BestRouteInfo
-            routes={displayedRoutes || []}
+            routes={data?.routes || []}
             onSelectRoute={selectedRouteIndex === null ? handleSelectRoute : undefined}
             selectedRouteIndex={selectedRouteIndex}
             onShowAllRoutes={selectedRouteIndex !== null ? handleShowAllRoutes : undefined}
