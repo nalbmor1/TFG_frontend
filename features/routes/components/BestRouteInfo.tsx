@@ -1,13 +1,15 @@
 import React from 'react';
-import { Image, ScrollView, Text, View } from 'react-native';
+import { Image, Pressable, ScrollView, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { RouteInfo } from '../types/routeTypes';
 
 interface BestRouteInfoProps {
   routes: RouteInfo[];
+  onSelectRoute?: (idx: number) => void;
+  selectedRouteIndex?: number | null;
 }
 
-export default function BestRouteInfo({ routes }: BestRouteInfoProps) {
+export default function BestRouteInfo({ routes, onSelectRoute, selectedRouteIndex }: BestRouteInfoProps) {
   const insets = useSafeAreaInsets();
   return (
     <ScrollView
@@ -26,45 +28,60 @@ export default function BestRouteInfo({ routes }: BestRouteInfoProps) {
       contentContainerStyle={{ paddingBottom: 14 }}
       showsVerticalScrollIndicator={false}
     >
-      {routes.map((route, idx) => (
-        <View key={idx} style={{ marginBottom: 18, borderBottomWidth: idx < routes.length - 1 ? 1 : 0, borderBottomColor: '#eee', paddingBottom: idx < routes.length - 1 ? 18 : 0 }}>
-          <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 4 }}>
-            <View style={{
-              backgroundColor: '#BC7769D4',
-              borderColor: '#880C0C',
-              borderWidth: 2,
-              borderRadius: 3,
-              paddingHorizontal: 10,
-              paddingVertical: 6,
-              marginRight: 8,
-              minWidth: 54,
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-              <Text style={{ fontSize: 16, fontFamily: 'Afacad' }}>
-                {`${Math.round(((route.length / 1000) / 15) * 60)} min`}
-              </Text>
+      {routes.map((route, idx) => {
+        const isSelected = selectedRouteIndex === idx || routes.length === 1;
+        const Wrapper = onSelectRoute ? Pressable : View;
+        return (
+          <Wrapper
+            key={idx}
+            style={{
+              marginBottom: 18,
+              borderBottomWidth: idx < routes.length - 1 ? 1 : 0,
+              borderBottomColor: '#eee',
+              paddingBottom: idx < routes.length - 1 ? 18 : 0,
+              borderRadius: 8,
+              opacity: isSelected ? 1 : 0.85,
+            }}
+            onPress={onSelectRoute ? () => onSelectRoute(idx) : undefined}
+          >
+            <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 4 }}>
+              <View style={{
+                backgroundColor: '#BC7769D4',
+                borderColor: '#880C0C',
+                borderWidth: 2,
+                borderRadius: 3,
+                paddingHorizontal: 10,
+                paddingVertical: 6,
+                marginRight: 8,
+                minWidth: 54,
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+                <Text style={{ fontSize: 16, fontFamily: 'Afacad' }}>
+                  {`${Math.round(((route.length / 1000) / 15) * 60)} min`}
+                </Text>
+              </View>
+              <Text style={{ fontSize: 18, fontFamily: 'Afacad' }}>{(route.length / 1000).toFixed(2)} km</Text>
             </View>
-            <Text style={{ fontSize: 18, fontFamily: 'Afacad' }}>{(route.length / 1000).toFixed(2)} km</Text>
-          </View>
-          <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 2 }}>
-            <Image source={require('../../../assets/images/routes/pollution.png')} style={{ width: 22, height: 22, marginRight: 8 }} resizeMode="contain" />
-            <Text style={{ fontSize: 18, fontFamily: 'Afacad' }}>Índice de contaminación: {route.pollution}</Text>
-          </View>
-          <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 2 }}>
-            <Image source={require('../../../assets/images/routes/danger.png')} style={{ width: 22, height: 22, marginRight: 8 }} resizeMode="contain" />
-            <Text style={{ fontSize: 18, fontFamily: 'Afacad' }}>Cruces o intersecciones: {Math.round(route.crossings * 100)}%</Text>
-          </View>
-          <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 2 }}>
-            <Image source={require('../../../assets/images/routes/deviation.png')} style={{ width: 22, height: 22, marginRight: 8 }} resizeMode="contain" />
-            <Text style={{ fontSize: 18, fontFamily: 'Afacad' }}>Desviación: {Math.round(route.length_deviation * 100)}%</Text>
-          </View>
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Image source={require('../../../assets/images/routes/bike.png')} style={{ width: 22, height: 22, marginRight: 8 }} resizeMode="contain" />
-            <Text style={{ fontSize: 18, fontFamily: 'Afacad' }}>Tramo sin carril bici: {Math.round(route.bikepath * 100)}%</Text>
-          </View>
-        </View>
-      ))}
+            <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 2 }}>
+              <Image source={require('../../../assets/images/routes/pollution.png')} style={{ width: 22, height: 22, marginRight: 8 }} resizeMode="contain" />
+              <Text style={{ fontSize: 18, fontFamily: 'Afacad' }}>Índice de contaminación: {route.pollution}</Text>
+            </View>
+            <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 2 }}>
+              <Image source={require('../../../assets/images/routes/danger.png')} style={{ width: 22, height: 22, marginRight: 8 }} resizeMode="contain" />
+              <Text style={{ fontSize: 18, fontFamily: 'Afacad' }}>Cruces o intersecciones: {Math.round(route.crossings * 100)}%</Text>
+            </View>
+            <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 2 }}>
+              <Image source={require('../../../assets/images/routes/deviation.png')} style={{ width: 22, height: 22, marginRight: 8 }} resizeMode="contain" />
+              <Text style={{ fontSize: 18, fontFamily: 'Afacad' }}>Desviación: {Math.round(route.length_deviation * 100)}%</Text>
+            </View>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <Image source={require('../../../assets/images/routes/bike.png')} style={{ width: 22, height: 22, marginRight: 8 }} resizeMode="contain" />
+              <Text style={{ fontSize: 18, fontFamily: 'Afacad' }}>Tramo sin carril bici: {Math.round(route.bikepath * 100)}%</Text>
+            </View>
+          </Wrapper>
+        );
+      })}
     </ScrollView>
   );
 }

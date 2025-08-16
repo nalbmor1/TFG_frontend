@@ -19,6 +19,7 @@ export default function MapScreen() {
   const [isInputFocused, setIsInputFocused] = useState(false);
   const [isResultMode, setIsResultMode] = useState(false);
   const [searchValue, setSearchValue] = useState('');
+  const [selectedRouteIndex, setSelectedRouteIndex] = useState<number | null>(null);
   const { handleMapPressWithKeyboard } = useMapInteractions(isInputFocused, setIsInputFocused, handleMapPress);
   const userLocation = useUserLocation();
   const { data, loading, generateRoutes, resetRoutes } = useMockRouteGeneration();
@@ -35,8 +36,18 @@ export default function MapScreen() {
   const handleBack = () => {
     setIsResultMode(false);
     setSearchValue('');
+    setSelectedRouteIndex(null);
     resetRoutes();
   };
+
+  const handleSelectRoute = (idx: number) => {
+    setSelectedRouteIndex(idx);
+  };
+
+  // Si hay una ruta seleccionada, solo mostrar esa ruta y su info
+  const displayedRoutes = data && selectedRouteIndex !== null
+    ? [data.routes[selectedRouteIndex]]
+    : data?.routes;
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
@@ -64,10 +75,19 @@ export default function MapScreen() {
         >
           {userLocation && <UserLocationMarker coordinate={userLocation} />}
           {selectedPoint && <CustomMarker coordinate={selectedPoint} />}
-          {data && <RoutePolylines routes={data.routes} />}
-          
+          {displayedRoutes && (
+            <RoutePolylines
+              routes={displayedRoutes}
+            />
+          )}
         </MapView>
-        {data && <BestRouteInfo routes={data.routes} />}
+        {data && (
+          <BestRouteInfo
+            routes={displayedRoutes || []}
+            onSelectRoute={selectedRouteIndex === null ? handleSelectRoute : undefined}
+            selectedRouteIndex={selectedRouteIndex}
+          />
+        )}
         {loading && <RouteLoader />}
       </View>
     </SafeAreaView>
