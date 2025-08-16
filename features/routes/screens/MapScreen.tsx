@@ -44,6 +44,10 @@ export default function MapScreen() {
     setSelectedRouteIndex(idx);
   };
 
+  const handleShowAllRoutes = () => {
+    setSelectedRouteIndex(null);
+  };
+
   // Si hay una ruta seleccionada, solo mostrar esa ruta y su info
   const displayedRoutes = data && selectedRouteIndex !== null
     ? [data.routes[selectedRouteIndex]]
@@ -86,6 +90,7 @@ export default function MapScreen() {
             routes={displayedRoutes || []}
             onSelectRoute={selectedRouteIndex === null ? handleSelectRoute : undefined}
             selectedRouteIndex={selectedRouteIndex}
+            onShowAllRoutes={selectedRouteIndex !== null ? handleShowAllRoutes : undefined}
           />
         )}
         {loading && <RouteLoader />}

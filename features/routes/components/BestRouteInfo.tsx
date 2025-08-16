@@ -1,3 +1,4 @@
+import AntDesign from '@expo/vector-icons/AntDesign';
 import React from 'react';
 import { Image, Pressable, ScrollView, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -7,9 +8,10 @@ interface BestRouteInfoProps {
   routes: RouteInfo[];
   onSelectRoute?: (idx: number) => void;
   selectedRouteIndex?: number | null;
+  onShowAllRoutes?: () => void;
 }
 
-export default function BestRouteInfo({ routes, onSelectRoute, selectedRouteIndex }: BestRouteInfoProps) {
+export default function BestRouteInfo({ routes, onSelectRoute, selectedRouteIndex, onShowAllRoutes }: BestRouteInfoProps) {
   const insets = useSafeAreaInsets();
   return (
     <ScrollView
@@ -40,7 +42,6 @@ export default function BestRouteInfo({ routes, onSelectRoute, selectedRouteInde
               borderBottomColor: '#eee',
               paddingBottom: idx < routes.length - 1 ? 18 : 0,
               borderRadius: 8,
-              opacity: isSelected ? 1 : 0.85,
             }}
             onPress={onSelectRoute ? () => onSelectRoute(idx) : undefined}
           >
@@ -82,6 +83,16 @@ export default function BestRouteInfo({ routes, onSelectRoute, selectedRouteInde
           </Wrapper>
         );
       })}
+      {onShowAllRoutes && (selectedRouteIndex !== null || routes.length === 1) && (
+        <Pressable
+          onPress={onShowAllRoutes}
+          style={{ alignItems: 'flex-start', marginTop: 1, paddingVertical: 1 }}
+          accessibilityRole="button"
+          accessibilityLabel="Mostrar todas las rutas"
+        >
+          <AntDesign name="back" size={26} color="#333" />
+        </Pressable>
+      )}
     </ScrollView>
   );
 }
