@@ -13,6 +13,12 @@ interface BestRouteInfoProps {
 
 export default function BestRouteInfo({ routes, onSelectRoute, selectedRouteIndex, onShowAllRoutes }: BestRouteInfoProps) {
   const insets = useSafeAreaInsets();
+  const icons = React.useMemo(() => ({
+    pollution: require('../../../assets/images/routes/pollution.png'),
+    danger: require('../../../assets/images/routes/danger.png'),
+    deviation: require('../../../assets/images/routes/deviation.png'),
+    bike: require('../../../assets/images/routes/bike.png'),
+  }), []);
   return (
     <ScrollView
       style={{
@@ -65,19 +71,19 @@ export default function BestRouteInfo({ routes, onSelectRoute, selectedRouteInde
               <Text style={{ fontSize: 18, fontFamily: 'Afacad' }}>{(route.length / 1000).toFixed(2)} km</Text>
             </View>
             <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 2 }}>
-              <Image source={require('../../../assets/images/routes/pollution.png')} style={{ width: 22, height: 22, marginRight: 8 }} resizeMode="contain" />
+              <Image source={icons.pollution} style={{ width: 22, height: 22, marginRight: 8 }} resizeMode="contain" />
               <Text style={{ fontSize: 18, fontFamily: 'Afacad' }}>Índice de contaminación: {route.pollution}</Text>
             </View>
             <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 2 }}>
-              <Image source={require('../../../assets/images/routes/danger.png')} style={{ width: 22, height: 22, marginRight: 8 }} resizeMode="contain" />
+              <Image source={icons.danger} style={{ width: 22, height: 22, marginRight: 8 }} resizeMode="contain" />
               <Text style={{ fontSize: 18, fontFamily: 'Afacad' }}>Cruces o intersecciones: {Math.round(route.crossings * 100)}%</Text>
             </View>
             <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 2 }}>
-              <Image source={require('../../../assets/images/routes/deviation.png')} style={{ width: 22, height: 22, marginRight: 8 }} resizeMode="contain" />
+              <Image source={icons.deviation} style={{ width: 22, height: 22, marginRight: 8 }} resizeMode="contain" />
               <Text style={{ fontSize: 18, fontFamily: 'Afacad' }}>Desviación: {Math.round(route.length_deviation * 100)}%</Text>
             </View>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <Image source={require('../../../assets/images/routes/bike.png')} style={{ width: 22, height: 22, marginRight: 8 }} resizeMode="contain" />
+              <Image source={icons.bike} style={{ width: 22, height: 22, marginRight: 8 }} resizeMode="contain" />
               <Text style={{ fontSize: 18, fontFamily: 'Afacad' }}>Tramo sin carril bici: {Math.round(route.bikepath * 100)}%</Text>
             </View>
           </Wrapper>
@@ -87,8 +93,6 @@ export default function BestRouteInfo({ routes, onSelectRoute, selectedRouteInde
         <Pressable
           onPress={onShowAllRoutes}
           style={{ alignItems: 'flex-start', marginTop: 1, paddingVertical: 1 }}
-          accessibilityRole="button"
-          accessibilityLabel="Mostrar todas las rutas"
         >
           <AntDesign name="back" size={26} color="#333" />
         </Pressable>
