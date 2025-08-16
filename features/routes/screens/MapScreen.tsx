@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import MapView from 'react-native-maps';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -11,9 +11,11 @@ import UserLocationMarker from '../components/UserLocationMarker';
 import { useMapInteractions } from '../hooks/useMapInteractions';
 import { useMapSelection } from '../hooks/useMapSelection';
 import { useUserLocation } from '../hooks/useUserLocation';
+import { useZoomToRoutes } from '../hooks/useZoomToRoutes';
 import { useMockRouteGeneration } from '../mocks/useMockRouteGeneration';
 
 export default function MapScreen() {
+  const mapRef = useRef<MapView>(null!);
   const { selectedPoint, handleMapPress } = useMapSelection();
   const [showSearchBar, setShowSearchBar] = useState(true);
   const [isInputFocused, setIsInputFocused] = useState(false);
@@ -23,6 +25,8 @@ export default function MapScreen() {
   const { handleMapPressWithKeyboard } = useMapInteractions(isInputFocused, setIsInputFocused, handleMapPress);
   const userLocation = useUserLocation();
   const { data, loading, generateRoutes, resetRoutes } = useMockRouteGeneration();
+  
+  useZoomToRoutes(mapRef, data?.routes);
 
   const handleSearch = (text: string) => {
     const distance = parseFloat(text);
@@ -68,6 +72,7 @@ export default function MapScreen() {
           />
         )}
         <MapView
+          ref={mapRef}
           style={styles.map}
           initialRegion={{
             latitude: 39.4699,
