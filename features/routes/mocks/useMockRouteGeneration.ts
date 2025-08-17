@@ -11,7 +11,7 @@ export function useMockRouteGeneration() {
     setTimeout(() => {
       setData(mockRouteResponse);
       setLoading(false);
-    }, 4000);
+    }, 2000);
   };
 
   const resetRoutes = () => {

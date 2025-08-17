@@ -7,10 +7,12 @@ export default function SearchBar({
   onBack,
   value: propValue,
   onChangeText,
+  onPressFilter,
   ...props
 }: ComponentProps<typeof TextInput> & {
   isResultMode?: boolean;
   onBack?: () => void;
+  onPressFilter?: () => void;
 }) {
   const [value, setValue] = useState('');
   const inputValue = propValue !== undefined ? propValue : value;
@@ -19,7 +21,7 @@ export default function SearchBar({
   return (
     <View style={styles.container}>
       {isResultMode ? (
-        <MaterialIcons name="filter-list" size={30} color="#2b2b2b" />
+        <MaterialIcons name="filter-list" size={30} color="#2b2b2b" onPress={onPressFilter} />
       ) : (
         <MaterialIcons name="search" size={30} color="#2b2b2b" />
       )}

@@ -1,9 +1,10 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import MapView from 'react-native-maps';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import BestRouteInfo from '../components/BestRouteInfo';
 import CustomMarker from '../components/CustomMarker';
+import FilterDropdown from '../components/FilterDropdown';
 import RouteLoader from '../components/RouteLoader';
 import RoutePolylines from '../components/RoutePolylines';
 import SearchBar from '../components/SearchBar';
@@ -15,21 +16,37 @@ export default function MapScreen() {
   const mapRef = useRef<MapView>(null!);
   const state = useMapScreenState();
   useZoomToRoutes(mapRef, state.data?.routes);
+  const [searchBarContainerBottom, setSearchBarContainerBottom] = useState<number | undefined>();
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
       <View style={styles.container}>
         {state.showSearchBar && (
-          <SearchBar
-            isResultMode={state.isResultMode}
-            onBack={state.handleBack}
-            value={state.searchValue}
-            onChangeText={state.setSearchValue}
-            onFocus={() => state.setIsInputFocused(true)}
-            onBlur={() => state.setIsInputFocused(false)}
-            onSubmitEditing={e => state.handleSearch(e.nativeEvent.text)}
-          />
+          <View
+            onLayout={e => {
+              const { y, height } = e.nativeEvent.layout;
+              setSearchBarContainerBottom(y + height);
+            }}
+          >
+            <SearchBar
+              isResultMode={state.isResultMode}
+              onBack={state.handleBack}
+              value={state.searchValue}
+              onChangeText={state.setSearchValue}
+              onFocus={() => state.setIsInputFocused(true)}
+              onBlur={() => state.setIsInputFocused(false)}
+              onSubmitEditing={e => state.handleSearch(e.nativeEvent.text)}
+              onPressFilter={state.toggleFilters}
+            />
+          </View>
         )}
+        <FilterDropdown
+          visible={state.isResultMode && state.isFilterOpen}
+          selectedSort={state.sortBy}
+          onSelectSort={state.handleSelectSort}
+          onClose={state.toggleFilters}
+          top={searchBarContainerBottom ? searchBarContainerBottom + 2 : undefined}
+        />
         <MapView
           ref={mapRef}
           style={styles.map}

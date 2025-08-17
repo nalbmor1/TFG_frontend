@@ -34,7 +34,7 @@ export const mockRouteResponse: RouteResponse = {
       bikepath: 1.000000,
       crossings: 0.250,
       pollution: 0.32,
-      hypervolume: 0.88,
+      hypervolume: 0.85,
     },
     {
       path: [
@@ -51,7 +51,7 @@ export const mockRouteResponse: RouteResponse = {
       bikepath: 0.812647,
       crossings: 0.543,
       pollution: 0.18,
-      hypervolume: 0.85,
+      hypervolume: 0.88,
     },
   ],
   state: 'SUCCESS',
