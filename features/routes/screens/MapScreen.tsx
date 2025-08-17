@@ -62,6 +62,7 @@ export default function MapScreen() {
           {state.selectedPoint && <CustomMarker coordinate={state.selectedPoint} />}
           {state.displayedRoutes && (
             <RoutePolylines
+              key={`${state.sortBy}-${state.selectedRouteIndex ?? 'all'}-${state.displayedRoutes.length}`}
               routes={state.displayedRoutes}
               onSelectRoute={state.selectedRouteIndex === null ? state.handleSelectRoute : undefined}
             />
@@ -69,7 +70,7 @@ export default function MapScreen() {
         </MapView>
         {state.data && (
           <BestRouteInfo
-            routes={state.data?.routes || []}
+            routes={state.sortedRoutes || []}
             onSelectRoute={state.selectedRouteIndex === null ? state.handleSelectRoute : undefined}
             selectedRouteIndex={state.selectedRouteIndex}
             onShowAllRoutes={state.selectedRouteIndex !== null ? state.handleShowAllRoutes : undefined}

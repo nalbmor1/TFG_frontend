@@ -4,6 +4,7 @@ import { useMapInteractions } from '../hooks/useMapInteractions';
 import { useMapSelection } from '../hooks/useMapSelection';
 import { useUserLocation } from '../hooks/useUserLocation';
 import { useMockRouteGeneration } from '../mocks/useMockRouteGeneration';
+import { useSortedRoutes } from './useSortedRoutes';
 
 export function useMapScreenState() {
   const { selectedPoint, handleMapPress } = useMapSelection();
@@ -46,14 +47,18 @@ export function useMapScreenState() {
 
   const toggleFilters = () => setIsFilterOpen(v => !v);
   const handleSelectSort = (s: SortBy) => {
+    // Clear selection so all routes render correctly after reorder
+    setSelectedRouteIndex(null);
     setSortBy(s);
     setIsFilterOpen(false);
-    
   };
 
-  const displayedRoutes = data && selectedRouteIndex !== null
-    ? [data.routes[selectedRouteIndex]]
-    : data?.routes;
+  // Sorted and displayed routes derived by dedicated hook
+  const { sortedRoutes, displayedRoutes } = useSortedRoutes(
+    data?.routes,
+    sortBy,
+    selectedRouteIndex,
+  );
 
   return {
     selectedPoint,
@@ -70,6 +75,7 @@ export function useMapScreenState() {
     handleMapPressWithKeyboard,
     userLocation,
     data,
+    sortedRoutes,
     loading,
     handleSearch,
     handleBack,
