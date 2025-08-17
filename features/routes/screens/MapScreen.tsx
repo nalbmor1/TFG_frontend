@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { StyleSheet, View } from 'react-native';
 import MapView from 'react-native-maps';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -8,67 +8,26 @@ import RouteLoader from '../components/RouteLoader';
 import RoutePolylines from '../components/RoutePolylines';
 import SearchBar from '../components/SearchBar';
 import UserLocationMarker from '../components/UserLocationMarker';
-import { useMapInteractions } from '../hooks/useMapInteractions';
-import { useMapSelection } from '../hooks/useMapSelection';
-import { useUserLocation } from '../hooks/useUserLocation';
+import { useMapScreenState } from '../hooks/useMapScreenState';
 import { useZoomToRoutes } from '../hooks/useZoomToRoutes';
-import { useMockRouteGeneration } from '../mocks/useMockRouteGeneration';
 
 export default function MapScreen() {
   const mapRef = useRef<MapView>(null!);
-  const { selectedPoint, handleMapPress } = useMapSelection();
-  const [showSearchBar, setShowSearchBar] = useState(true);
-  const [isInputFocused, setIsInputFocused] = useState(false);
-  const [isResultMode, setIsResultMode] = useState(false);
-  const [searchValue, setSearchValue] = useState('');
-  const [selectedRouteIndex, setSelectedRouteIndex] = useState<number | null>(null);
-  const { handleMapPressWithKeyboard } = useMapInteractions(isInputFocused, setIsInputFocused, handleMapPress);
-  const userLocation = useUserLocation();
-  const { data, loading, generateRoutes, resetRoutes } = useMockRouteGeneration();
-  
-  useZoomToRoutes(mapRef, data?.routes);
-
-  const handleSearch = (text: string) => {
-    const distance = parseFloat(text);
-    if (!isNaN(distance)) {
-      generateRoutes(distance);
-      setIsResultMode(true);
-      setSearchValue(text);
-    }
-  };
-
-  const handleBack = () => {
-    setIsResultMode(false);
-    setSearchValue('');
-    setSelectedRouteIndex(null);
-    resetRoutes();
-  };
-
-  const handleSelectRoute = (idx: number) => {
-    setSelectedRouteIndex(idx);
-  };
-
-  const handleShowAllRoutes = () => {
-    setSelectedRouteIndex(null);
-  };
-
-  // Si hay una ruta seleccionada, solo mostrar esa ruta
-  const displayedRoutes = data && selectedRouteIndex !== null
-    ? [data.routes[selectedRouteIndex]]
-    : data?.routes;
+  const state = useMapScreenState();
+  useZoomToRoutes(mapRef, state.data?.routes);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
       <View style={styles.container}>
-        {showSearchBar && (
+        {state.showSearchBar && (
           <SearchBar
-            isResultMode={isResultMode}
-            onBack={handleBack}
-            value={searchValue}
-            onChangeText={setSearchValue}
-            onFocus={() => setIsInputFocused(true)}
-            onBlur={() => setIsInputFocused(false)}
-            onSubmitEditing={e => handleSearch(e.nativeEvent.text)}
+            isResultMode={state.isResultMode}
+            onBack={state.handleBack}
+            value={state.searchValue}
+            onChangeText={state.setSearchValue}
+            onFocus={() => state.setIsInputFocused(true)}
+            onBlur={() => state.setIsInputFocused(false)}
+            onSubmitEditing={e => state.handleSearch(e.nativeEvent.text)}
           />
         )}
         <MapView
@@ -80,26 +39,26 @@ export default function MapScreen() {
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421,
           }}
-          onPress={isResultMode ? undefined : handleMapPressWithKeyboard}
+          onPress={state.isResultMode ? undefined : state.handleMapPressWithKeyboard}
         >
-          {userLocation && <UserLocationMarker coordinate={userLocation} />}
-          {selectedPoint && <CustomMarker coordinate={selectedPoint} />}
-          {displayedRoutes && (
+          {state.userLocation && <UserLocationMarker coordinate={state.userLocation} />}
+          {state.selectedPoint && <CustomMarker coordinate={state.selectedPoint} />}
+          {state.displayedRoutes && (
             <RoutePolylines
-              routes={displayedRoutes}
-              onSelectRoute={selectedRouteIndex === null ? handleSelectRoute : undefined}
+              routes={state.displayedRoutes}
+              onSelectRoute={state.selectedRouteIndex === null ? state.handleSelectRoute : undefined}
             />
           )}
         </MapView>
-        {data && (
+        {state.data && (
           <BestRouteInfo
-            routes={data?.routes || []}
-            onSelectRoute={selectedRouteIndex === null ? handleSelectRoute : undefined}
-            selectedRouteIndex={selectedRouteIndex}
-            onShowAllRoutes={selectedRouteIndex !== null ? handleShowAllRoutes : undefined}
+            routes={state.data?.routes || []}
+            onSelectRoute={state.selectedRouteIndex === null ? state.handleSelectRoute : undefined}
+            selectedRouteIndex={state.selectedRouteIndex}
+            onShowAllRoutes={state.selectedRouteIndex !== null ? state.handleShowAllRoutes : undefined}
           />
         )}
-        {loading && <RouteLoader />}
+        {state.loading && <RouteLoader />}
       </View>
     </SafeAreaView>
   );
