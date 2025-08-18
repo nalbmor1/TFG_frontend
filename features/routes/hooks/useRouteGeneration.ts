@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { solicitarGeneracionRutas } from '../services/routeService';
 import type { RouteResponse } from '../types/routeTypes';
+import { dedupeRoutes } from '../utils/dedupeRoutes';
 import { useRoutePolling } from './useRoutePolling';
 
 export function useRouteGeneration() {
@@ -13,7 +14,8 @@ export function useRouteGeneration() {
 
     useEffect(() => {
         if (data) {
-            setResult(data);
+            const deduped = dedupeRoutes(data.routes);
+            setResult(deduped ? { ...data, routes: deduped } : data);
             setRequesting(false);
             setError(null);
         }
