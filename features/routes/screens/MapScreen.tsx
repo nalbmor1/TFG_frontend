@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import MapView from 'react-native-maps';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import ErrorModal from '../../../components/ErrorModal';
 import BestRouteInfo from '../components/BestRouteInfo';
 import CustomMarker from '../components/CustomMarker';
 import FilterDropdown from '../components/FilterDropdown';
@@ -77,6 +78,13 @@ export default function MapScreen() {
           />
         )}
         {state.loading && <RouteLoader />}
+        <ErrorModal
+          visible={!!state.error}
+          title="Ha ocurrido un error"
+          message={state.error || ''}
+          onClose={state.clearError}
+          confirmLabel="Cerrar"
+        />
       </View>
     </SafeAreaView>
   );

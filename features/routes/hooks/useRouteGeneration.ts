@@ -60,11 +60,14 @@ export function useRouteGeneration() {
         setError(null);
     }, []);
 
+    const clearError = useCallback(() => setError(null), []);
+
     return {
         data: result,
         loading: requesting || loading,
         generateRoutes,
         resetRoutes,
         error,
+        clearError,
     };
 }

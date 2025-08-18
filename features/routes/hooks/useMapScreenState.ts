@@ -17,7 +17,7 @@ export function useMapScreenState() {
   const [sortBy, setSortBy] = useState<SortBy>('best');
   const { handleMapPressWithKeyboard } = useMapInteractions(isInputFocused, setIsInputFocused, handleMapPress);
   const userLocation = useUserLocation();
-  const { data, loading, generateRoutes, resetRoutes } = useRouteGeneration();
+  const { data, loading, generateRoutes, resetRoutes, error, clearError } = useRouteGeneration();
 
   const handleSearch = (text: string) => {
     const normalized = text.replace(',', '.').trim();
@@ -85,6 +85,7 @@ export function useMapScreenState() {
     data,
     sortedRoutes,
     loading,
+    error,
     handleSearch,
     handleBack,
     handleSelectRoute,
@@ -94,5 +95,6 @@ export function useMapScreenState() {
     sortBy,
     toggleFilters,
     handleSelectSort,
+    clearError,
   };
 }
