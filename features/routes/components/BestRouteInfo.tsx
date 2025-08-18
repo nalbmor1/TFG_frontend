@@ -55,7 +55,7 @@ export default function BestRouteInfo({ routes, onSelectRoute, selectedRouteInde
         </View>
         <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 2 }}>
           <Image source={icons.pollution} style={{ width: 22, height: 22, marginRight: 8 }} resizeMode="contain" />
-          <Text style={{ fontSize: 18, fontFamily: 'Afacad' }}>Índice de contaminación: {route.pollution}</Text>
+          <Text style={{ fontSize: 18, fontFamily: 'Afacad' }}>Índice de contaminación: {route.pollution.toFixed(3)}</Text>
         </View>
         <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 2 }}>
           <Image source={icons.danger} style={{ width: 22, height: 22, marginRight: 8 }} resizeMode="contain" />

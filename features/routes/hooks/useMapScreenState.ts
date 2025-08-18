@@ -3,7 +3,7 @@ import type { SortBy } from '../components/FilterDropdown';
 import { useMapInteractions } from '../hooks/useMapInteractions';
 import { useMapSelection } from '../hooks/useMapSelection';
 import { useUserLocation } from '../hooks/useUserLocation';
-import { useMockRouteGeneration } from '../mocks/useMockRouteGeneration';
+import { useRouteGeneration } from './useRouteGeneration';
 import { useSortedRoutes } from './useSortedRoutes';
 
 export function useMapScreenState() {
@@ -17,12 +17,21 @@ export function useMapScreenState() {
   const [sortBy, setSortBy] = useState<SortBy>('best');
   const { handleMapPressWithKeyboard } = useMapInteractions(isInputFocused, setIsInputFocused, handleMapPress);
   const userLocation = useUserLocation();
-  const { data, loading, generateRoutes, resetRoutes } = useMockRouteGeneration();
+  const { data, loading, generateRoutes, resetRoutes } = useRouteGeneration();
 
   const handleSearch = (text: string) => {
-    const distance = parseFloat(text);
-    if (!isNaN(distance)) {
-      generateRoutes(distance);
+    const normalized = text.replace(',', '.').trim();
+    const distanceKm = parseFloat(normalized);
+    if (!isNaN(distanceKm) && distanceKm > 0) {
+      const distanceMeters = Math.round(distanceKm * 1000);
+
+      const coords = selectedPoint
+        ? { lat: selectedPoint.latitude, lon: selectedPoint.longitude }
+        : userLocation
+          ? { lat: userLocation.latitude, lon: userLocation.longitude }
+          : undefined;
+      if (!coords) return;
+      generateRoutes(distanceMeters, coords);
       setIsResultMode(true);
       setSearchValue(text);
     }
@@ -53,7 +62,6 @@ export function useMapScreenState() {
     setIsFilterOpen(false);
   };
 
-  // Sorted and displayed routes derived by dedicated hook
   const { sortedRoutes, displayedRoutes } = useSortedRoutes(
     data?.routes,
     sortBy,

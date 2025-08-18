@@ -19,7 +19,7 @@ export default function RoutePolylines({ routes, onSelectRoute }: RoutePolylines
     <>
       {otherRoutes.map((route, idx) => (
         <Polyline
-          key={`${stateTag}-secondary-${keyFor(route)}`}
+          key={`${stateTag}-secondary-${idx}-${keyFor(route)}`}
           coordinates={route.path.map(([lat, lon]) => ({ latitude: lat, longitude: lon }))}
           strokeColor="rgba(188,119,105,0.5)"
           strokeWidth={3}
@@ -29,7 +29,7 @@ export default function RoutePolylines({ routes, onSelectRoute }: RoutePolylines
       ))}
       {mainRoute && (
         <Polyline
-          key={`${stateTag}-main-${keyFor(mainRoute)}`}
+          key={`${stateTag}-main-0-${keyFor(mainRoute)}`}
           coordinates={mainRoute.path.map(([lat, lon]) => ({ latitude: lat, longitude: lon }))}
           strokeColor="#880C0C"
           strokeWidth={5}
