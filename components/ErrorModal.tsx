@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Modal, Pressable, StyleSheet, Text, View } from 'react-native';
 
 interface ErrorModalProps {
@@ -10,17 +10,22 @@ interface ErrorModalProps {
 }
 
 export default function ErrorModal({ visible, title = 'Error', message, onClose, confirmLabel = 'Entendido' }: ErrorModalProps) {
+  
+  const [displayMessage, setDisplayMessage] = useState(message);
+  useEffect(() => {
+    if (message) setDisplayMessage(message);
+  }, [message]);
   return (
     <Modal
       visible={visible}
       transparent
-      animationType="fade"
+      animationType="none"
       onRequestClose={onClose}
     >
       <View style={styles.backdrop}>
         <View style={styles.container}>
           <Text style={styles.title}>{title}</Text>
-          <Text style={styles.message}>{message}</Text>
+          <Text style={styles.message}>{displayMessage}</Text>
           <Pressable style={styles.button} onPress={onClose} android_ripple={{ color: '#ffffff33' }}>
             <Text style={styles.buttonText}>{confirmLabel}</Text>
           </Pressable>

@@ -15,9 +15,10 @@ export function useMapScreenState() {
   const [selectedRouteIndex, setSelectedRouteIndex] = useState<number | null>(null);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [sortBy, setSortBy] = useState<SortBy>('best');
+  const [localError, setLocalError] = useState<string | null>(null);
   const { handleMapPressWithKeyboard } = useMapInteractions(isInputFocused, setIsInputFocused, handleMapPress);
   const userLocation = useUserLocation();
-  const { data, loading, generateRoutes, resetRoutes, error, clearError } = useRouteGeneration();
+  const { data, loading, generateRoutes, resetRoutes, error: routeError, clearError: clearRouteError } = useRouteGeneration();
 
   const handleSearch = (text: string) => {
     const normalized = text.replace(',', '.').trim();
@@ -30,7 +31,10 @@ export function useMapScreenState() {
         : userLocation
           ? { lat: userLocation.latitude, lon: userLocation.longitude }
           : undefined;
-      if (!coords) return;
+      if (!coords) {
+        setLocalError('Por favor, selecciona un punto de inicio o activa la ubicación.');
+        return;
+      }
       generateRoutes(distanceMeters, coords);
       setIsResultMode(true);
       setSearchValue(text);
@@ -68,6 +72,13 @@ export function useMapScreenState() {
     selectedRouteIndex,
   );
 
+  // Merge errors so the screen continues to use a single error/clearError pair
+  const mergedError = localError ?? routeError ?? null;
+  const clearAllErrors = () => {
+    if (localError) setLocalError(null);
+    if (routeError) clearRouteError();
+  };
+
   return {
     selectedPoint,
     showSearchBar,
@@ -85,7 +96,7 @@ export function useMapScreenState() {
     data,
     sortedRoutes,
     loading,
-    error,
+    error: mergedError,
     handleSearch,
     handleBack,
     handleSelectRoute,
@@ -95,6 +106,6 @@ export function useMapScreenState() {
     sortBy,
     toggleFilters,
     handleSelectSort,
-    clearError,
+    clearError: clearAllErrors,
   };
 }
