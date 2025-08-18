@@ -70,7 +70,7 @@ export default function MapScreen() {
         </MapView>
         {state.data && (
           <BestRouteInfo
-            routes={state.sortedRoutes || []}
+            routes={(state.sortedRoutes || []).slice(0, 6)}
             onSelectRoute={state.selectedRouteIndex === null ? state.handleSelectRoute : undefined}
             selectedRouteIndex={state.selectedRouteIndex}
             onShowAllRoutes={state.selectedRouteIndex !== null ? state.handleShowAllRoutes : undefined}
