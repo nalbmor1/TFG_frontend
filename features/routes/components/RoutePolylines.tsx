@@ -25,6 +25,7 @@ export default function RoutePolylines({ routes, onSelectRoute }: RoutePolylines
           strokeWidth={3}
           tappable={!!onSelectRoute}
           onPress={onSelectRoute ? () => onSelectRoute(idx + 1) : undefined}
+          lineJoin='bevel'
         />
       ))}
       {mainRoute && (
@@ -35,6 +36,7 @@ export default function RoutePolylines({ routes, onSelectRoute }: RoutePolylines
           strokeWidth={5}
           tappable={!!onSelectRoute}
           onPress={onSelectRoute ? () => onSelectRoute(0) : undefined}
+          lineJoin='bevel'
         />
       )}
     </>
