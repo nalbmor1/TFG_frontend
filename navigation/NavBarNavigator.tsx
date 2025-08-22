@@ -1,9 +1,7 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import MapScreen from '../features/routes/screens/MapScreen';
-// Importa tus iconos de assets
 import { Image } from 'react-native';
+import MapScreen from '../features/routes/screens/MapScreen';
 
-// Crea componentes temporales para las otras pantallas
 function FavoritesScreen() { return <></>; }
 function ActivityScreen() { return <></>; }
 function ProfileScreen() { return <></>; }
