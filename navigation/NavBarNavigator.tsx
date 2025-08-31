@@ -1,10 +1,9 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Image } from 'react-native';
+import ActivityScreen from '../features/activity/screens/ActivityScreen';
+import FavoritesScreen from '../features/favorites/screens/FavoritesScreen';
+import ProfileScreen from '../features/profile/screens/ProfileScreen';
 import MapScreen from '../features/routes/screens/MapScreen';
-
-function FavoritesScreen() { return <></>; }
-function ActivityScreen() { return <></>; }
-function ProfileScreen() { return <></>; }
 
 const Tab = createBottomTabNavigator();
 
