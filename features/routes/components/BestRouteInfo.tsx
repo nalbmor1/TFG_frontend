@@ -34,24 +34,13 @@ export default function BestRouteInfo({ routes, onSelectRoute, selectedRouteInde
           borderRadius: 8,
         }}
       >
-        <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 4 }}>
-          <View style={{
-            backgroundColor: '#BC7769D4',
-            borderColor: '#880C0C',
-            borderWidth: 2,
-            borderRadius: 3,
-            paddingHorizontal: 10,
-            paddingVertical: 6,
-            marginRight: 8,
-            minWidth: 54,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
-            <Text style={{ fontSize: 16, fontFamily: 'Afacad' }}>
-              {`${Math.round(((route.length / 1000) / 15) * 60)} min`}
-            </Text>
-          </View>
-          <Text style={{ fontSize: 18, fontFamily: 'Afacad' }}>{(route.length / 1000).toFixed(2)} km</Text>
+        <View style={{ flexDirection: 'row', alignItems: 'flex-end', marginBottom: 4 }}>
+          <Text style={{ fontSize: 26, fontFamily: 'Afacad', fontWeight: 'bold', marginRight: 8 }}>
+            {`${Math.round(((route.length / 1000) / 15) * 60)} min`}
+          </Text>
+          <Text style={{ fontSize: 14, fontFamily: 'Afacad', color: '#888', lineHeight: 28 }}>
+            {(route.length / 1000).toFixed(2)} km
+          </Text>
         </View>
         <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 2 }}>
           <Image source={icons.pollution} style={{ width: 22, height: 22, marginRight: 8 }} resizeMode="contain" />

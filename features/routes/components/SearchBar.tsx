@@ -35,7 +35,7 @@ export default function SearchBar({
         )}
         <TextInput
           style={styles.input}
-          value={inputValue}
+          value={isResultMode && inputValue !== '' ? `${inputValue} km` : inputValue}
           onChangeText={handleChangeText}
           editable={!isResultMode}
           {...props}

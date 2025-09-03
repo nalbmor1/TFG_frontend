@@ -48,8 +48,16 @@ export default function NavBarNavigator() {
         name="Profile"
         component={ProfileScreen}
         options={{
-          tabBarIcon: () => (
-            <Image source={require('../assets/images/nav_bar/user.png')} style={{ width: 22, height: 22 }} resizeMode="contain" />
+          tabBarIcon: ({ focused }) => (
+            <Image
+              source={
+                focused
+                  ? require('../assets/images/nav_bar/user_colored.png')
+                  : require('../assets/images/nav_bar/user.png')
+              }
+              style={{ width: 22, height: 22 }}
+              resizeMode="contain"
+            />
           ),
         }}
       />
