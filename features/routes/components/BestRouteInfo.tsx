@@ -18,10 +18,14 @@ export default function BestRouteInfo({ routes, onSelectRoute, selectedRouteInde
     danger: require('../../../assets/images/routes/danger.png'),
     deviation: require('../../../assets/images/routes/deviation.png'),
     bike: require('../../../assets/images/routes/bike.png'),
+    share: require('../../../assets/images/routes/share.png'),
+    heart: require('../../../assets/images/nav_bar/heart.png'),
   }), []);
 
   const renderCard = (route: RouteInfo, idx: number, clickable = true, withSeparators = true) => {
     const Wrapper: any = clickable && onSelectRoute ? Pressable : View;
+    const isSelected = typeof selectedRouteIndex === 'number' && selectedRouteIndex === idx;
+
     return (
       <Wrapper
         key={idx}
@@ -34,13 +38,49 @@ export default function BestRouteInfo({ routes, onSelectRoute, selectedRouteInde
           borderRadius: 8,
         }}
       >
-        <View style={{ flexDirection: 'row', alignItems: 'flex-end', marginBottom: 4 }}>
-          <Text style={{ fontSize: 26, fontFamily: 'Afacad', fontWeight: 'bold', marginRight: 8 }}>
-            {`${Math.round(((route.length / 1000) / 15) * 60)} min`}
-          </Text>
-          <Text style={{ fontSize: 14, fontFamily: 'Afacad', color: '#888', lineHeight: 28 }}>
-            {(route.length / 1000).toFixed(2)} km
-          </Text>
+        <View style={{ flexDirection: 'row', alignItems: 'flex-end', marginBottom: 8 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'flex-end', flex: 1 }}>
+            <Text style={{ fontSize: 26, fontFamily: 'Afacad', fontWeight: 'bold', marginRight: 8 }}>
+              {`${Math.round(((route.length / 1000) / 15) * 60)} min`}
+            </Text>
+            <Text style={{ fontSize: 14, fontFamily: 'Afacad', color: '#888', lineHeight: 28 }}>
+              {(route.length / 1000).toFixed(2)} km
+            </Text>
+          </View>
+          {isSelected && (
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <Pressable
+                style={{
+                  marginRight: 12,
+                  marginBottom: 2,
+                }}
+                onPress={() => {/* Acción al pulsar el corazón */}}
+              >
+                <Image source={icons.heart} style={{ width: 26, height: 26 }} resizeMode="contain" />
+              </Pressable>
+              <Pressable
+                style={{
+                  marginRight: 12,
+                  marginBottom: 2,
+                }}
+                onPress={() => {/* Acción al pulsar compartir */}}
+              >
+                <Image source={icons.share} style={{ width: 26, height: 26 }} resizeMode="contain" />
+              </Pressable>
+              <Pressable
+                style={{
+                  backgroundColor: '#880C0C',
+                  paddingVertical: 6,
+                  paddingHorizontal: 18,
+                  borderRadius: 8,
+                  marginBottom: 2,
+                }}
+                onPress={() => {/* Acción al pulsar "Iniciar" */}}
+              >
+                <Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold', fontFamily: 'Afacad' }}>Iniciar</Text>
+              </Pressable>
+            </View>
+          )}
         </View>
         <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 2 }}>
           <Image source={icons.pollution} style={{ width: 22, height: 22, marginRight: 8 }} resizeMode="contain" />
