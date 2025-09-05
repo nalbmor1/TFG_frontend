@@ -21,8 +21,12 @@ export default function NavBarNavigator() {
         name="Home"
         component={MapScreen}
         options={{
-          tabBarIcon: () => (
-            <Image source={require('../assets/images/nav_bar/home.png')} style={{ width: 24, height: 24 }} resizeMode="contain" />
+          tabBarIcon: ({ focused }) => (
+            <Image source={
+              focused 
+              ? require('../assets/images/nav_bar/home_colored.png') 
+              : require('../assets/images/nav_bar/home.png')
+            } style={{ width: 24, height: 24 }} resizeMode="contain" />
           ),
         }}
       />
@@ -30,8 +34,12 @@ export default function NavBarNavigator() {
         name="Favorites"
         component={FavoritesScreen}
         options={{
-          tabBarIcon: () => (
-            <Image source={require('../assets/images/nav_bar/heart.png')} style={{ width: 24, height: 24 }} resizeMode="contain" />
+          tabBarIcon: ({ focused }) => (
+            <Image source={
+              focused 
+              ? require('../assets/images/nav_bar/heart_colored.png') 
+              : require('../assets/images/nav_bar/heart.png')
+            } style={{ width: 24, height: 24 }} resizeMode="contain" />
           ),
         }}
       />
@@ -39,8 +47,13 @@ export default function NavBarNavigator() {
         name="Activity"
         component={ActivityScreen}
         options={{
-          tabBarIcon: () => (
-            <Image source={require('../assets/images/nav_bar/rayo.png')} style={{ width: 26, height: 26 }} resizeMode="contain" />
+          tabBarIcon: ({ focused }) => (
+            <Image 
+              source={
+                focused
+                  ? require('../assets/images/nav_bar/rayo_colored.png')
+                  : require('../assets/images/nav_bar/rayo.png')
+              } style={{ width: 26, height: 26 }} resizeMode="contain" />
           ),
         }}
       />
