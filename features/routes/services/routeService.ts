@@ -1,6 +1,5 @@
+import { BASE_URL } from '@env';
 import { RouteRequest, RouteResponse, TaskResponse } from '../types/routeTypes';
-
-const BASE_URL = 'http://192.168.1.134:8000';
 
 export async function solicitarGeneracionRutas(data: RouteRequest): Promise<TaskResponse> {
   const response = await fetch(`${BASE_URL}/routes/`, {
